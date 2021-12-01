@@ -81,7 +81,7 @@ function App() {
 
       {/* big circle */}
       <div
-        className="relative bg-white rounded-full z-20 transition-all duration-300"
+        className="relative bg-white rounded-full z-20 transition-all duration-700"
         style={{
           left: `${userChoice === "Login" ? "-48rem" : "43rem"}`,
           top: `${userChoice === "Login" ? "-34.3125rem" : "-19rem"}`,
