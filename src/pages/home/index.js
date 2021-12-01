@@ -43,7 +43,9 @@ function App() {
       </div>
 
       <div
-        className="absolute z-10 top-64 left-36 text-5xl text-center leading-snug"
+        className={`absolute z-10 top-64 left-36 text-5xl text-center leading-snug ${
+          userChoice === "Login" && "blur-xl"
+        } filter transition-all duration-500`}
         style={{
           width: "26.875rem",
           height: "15rem",
@@ -61,7 +63,9 @@ function App() {
         TO LOGIN IN
       </div>
       <div
-        className="absolute z-10 right-36 top-64 text-5xl text-center leading-snug"
+        className={`absolute z-10 right-36 top-64 text-5xl text-center leading-snug ${
+          userChoice !== "Login" && "blur-xl"
+        } filter transition-all duration-500`}
         style={{
           width: "26.875rem",
           height: "15rem",
