@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "../../component/Navbar";
-import circleBG from "../../assets/002.png";
 
 function App() {
   const [userChoice, setUserChoice] = useState("Login");
@@ -19,7 +17,7 @@ function App() {
       >
         IF YOU HAVE AN ACCOUNT, PLEASE CLICK{" "}
         <span
-          className="cursor-pointer underline text-pink-600 hover:text-blue-500 transition-all"
+          className="cursor-pointer text-pink-600 hover:text-blue-500 transition-all hover:underline"
           onClick={() => {
             setUserChoice("Login");
           }}
@@ -39,7 +37,7 @@ function App() {
       >
         IF YOU HAVE NO ACCOUNT, PLEASE CLICK{" "}
         <span
-          className="cursor-pointer underline text-pink-600 hover:text-blue-500 transition-all"
+          className="cursor-pointer text-pink-600 hover:text-blue-500 transition-all "
           onClick={() => {
             setUserChoice("Regist");
           }}
@@ -86,11 +84,25 @@ function App() {
           <div className="text-2xl font-bold">LOGIN</div>
           {/* 登录的两个输入框 */}
           <div className="">
-            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-4"></div>
-            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-4"></div>
+            <div className="w-80 h-10 rounded-3xl my-4">
+              <input
+                type="text"
+                placeholder="user-Account"
+                className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
+              />
+            </div>
+            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-4">
+              <input
+                type="password"
+                placeholder="user-Password"
+                className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
+              />
+            </div>
           </div>
           {/* 登录按钮 */}
-          <div className="w-24 h-11 rounded-2xl bg-gray-300"> </div>
+          <div className="w-24 h-11 rounded-2xl bg-gray-300 flex justify-center items-center">
+            <span>login</span>
+          </div>
           {/* 用于撑开flex布局 */}
           <div className=""></div>
         </div>
@@ -112,13 +124,32 @@ function App() {
           <div className="text-2xl font-bold">Regist</div>
           {/* 注册的两个输入框 */}
           <div className="">
-            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-5"></div>
-            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-5"></div>
-            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-5"></div>
-            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-5"></div>
+            <div className="w-80 h-10 rounded-3xl my-5">
+              <input
+                type="email"
+                placeholder="你的邮件"
+                className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
+              />
+            </div>
+            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-5">
+              <input
+                type="password"
+                placeholder="密码"
+                className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
+              />
+            </div>
+            <div className="w-80 h-10 rounded-3xl bg-gray-300 my-5">
+              <input
+                type="password"
+                placeholder="确认密码"
+                className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
+              />
+            </div>
           </div>
           {/* 注册按钮 */}
-          <div className="w-24 h-11 rounded-2xl bg-gray-300"> </div>
+          <div className="w-24 h-11 rounded-2xl bg-white flex justify-center items-center">
+            <span>regist</span>
+          </div>
           {/* 用于撑开flex布局 */}
           <div className=""></div>
         </div>
