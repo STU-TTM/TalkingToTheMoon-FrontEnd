@@ -17,7 +17,7 @@ function App() {
       >
         IF YOU HAVE AN ACCOUNT, PLEASE CLICK{" "}
         <span
-          className="cursor-pointer text-pink-600 hover:text-blue-500 transition-all hover:underline"
+          className="cursor-pointer text-pink-600 hover:text-blue-500 transition-all"
           onClick={() => {
             setUserChoice("Login");
           }}
@@ -87,14 +87,14 @@ function App() {
             <div className="w-80 h-10 rounded-3xl my-4">
               <input
                 type="text"
-                placeholder="user-Account"
+                placeholder="你的账户"
                 className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
               />
             </div>
             <div className="w-80 h-10 rounded-3xl bg-gray-300 my-4">
               <input
                 type="password"
-                placeholder="user-Password"
+                placeholder="密码"
                 className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
               />
             </div>
