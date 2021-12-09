@@ -25,13 +25,26 @@ export default function index(props) {
         </div>
         {/* navbar-middle */}
         <div className="flex justify-around items-center h-full w-52 font-bold">
-          <Link to="#" className="text-white ">
+          <Link
+            to="/"
+            className={`text-white ${
+              props.choice === "Index" && "border-b-2 "
+            }`}
+          >
             首页
           </Link>
-          <Link to="#" className="text-white ">
+          <Link
+            to="/community"
+            className={`text-white ${
+              props.choice === "Community" && "border-b-2 "
+            }`}
+          >
             社区
           </Link>
-          <Link to="#" className="text-white ">
+          <Link
+            to="#"
+            className={`text-white ${props.choice === "Love" && "border-b-2 "}`}
+          >
             表白墙
           </Link>
         </div>

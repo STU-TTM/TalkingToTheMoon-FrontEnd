@@ -2,6 +2,7 @@
   "name": "talking_to_the_moon",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://120.24.228.79:8080/",
   "dependencies": {
     "@craco/craco": "^6.4.2",
     "@testing-library/jest-dom": "^5.11.4",
