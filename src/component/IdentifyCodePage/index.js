@@ -1,8 +1,7 @@
-import { render } from "@testing-library/react";
-import React, { useState } from "react";
-import styled from "styled-components";
+import React from "react";
+// import styled from "styled-components";
 
-const VerificationInputer = styled.input``;
+// const VerificationInputer = styled.input``;
 
 export default class Index extends React.Component {
   state = {

@@ -4,10 +4,6 @@ import request from "../../utils/request";
 import { LOGIN, GETPOSTLISTBYPAGE } from "../../utils/pathMap";
 import { Link } from "react-router-dom";
 
-function ListCard(props) {
-  return <div className="w-9 h-24"></div>;
-}
-
 export default function Index() {
   const [list, setList] = useState(undefined);
   useEffect(() => {
