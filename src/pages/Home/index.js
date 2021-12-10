@@ -62,7 +62,7 @@ export default class Index extends Component {
               {/* 内容展示 */}
               <ContentPage>
                 <div className="text-6xl w-auto text-white">
-                  <div>
+                  <div className="leading-relaxed">
                     HIDE YOUR
                     <br />
                     <span className="text-red-300">REAL NAME</span> HERE
@@ -82,7 +82,7 @@ export default class Index extends Component {
                 <GifPicture className="mr-6" />
                 {/* 内容展示 */}
                 <div className="text-6xl w-auto">
-                  <div>
+                  <div className="leading-relaxed">
                     MAKE A
                     <br />
                     <span className="text-red-300">PRIVATE LETTER</span>
