@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function index(props) {
+export default function Index(props) {
   return (
     <div
-      className={`w-full ${
-        props.fullscreen === true && "h-screen"
-      } relative overflow-hidden bg-gray-200 select-none`}
+      className={`w-full ${props.fullscreen === true && "h-screen"} ${
+        props.fixed === true ? "fixed" : "relative"
+      }
+       relative overflow-hidden bg-gray-200 select-none`}
     >
       {/* navbar */}
       <div
-        className="h-16 z-30 relative bg-gray-700 flex justify-between items-center px-10 rounded-b-lg "
+        className="h-16 z-30 relative bg-gray-700 flex justify-between items-center px-10 "
         style={{ boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.25)" }}
       >
         {/* navbar-left */}
