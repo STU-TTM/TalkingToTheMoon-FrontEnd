@@ -8,25 +8,15 @@ export default function Index() {
   const [list, setList] = useState(undefined);
   useEffect(() => {
     const fetchData = async () => {
-      let res = await request.post(
-        LOGIN,
-        {},
-        {
-          params: {
-            email: "1234@stu.edu.cn",
-            password: "123456",
-          },
-        }
-      );
+      let res = await request.post(LOGIN, {
+        email: "1",
+        password: "1",
+      });
       console.log(res);
 
       res = await request.post(GETPOSTLISTBYPAGE, {
         current: 1,
         limit: 10,
-        rows: 0,
-        path: "string",
-        offset: 0,
-        total: 0,
       });
       console.log(res.data.data);
       setList(res.data.data);
