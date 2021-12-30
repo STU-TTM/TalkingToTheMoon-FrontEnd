@@ -43,7 +43,7 @@ export default function Index(props) {
             社区
           </Link>
           <Link
-            to="#"
+            to="/meetYou"
             className={`text-white ${props.choice === "Love" && "border-b-2 "}`}
           >
             表白墙
