@@ -46,7 +46,12 @@ export default function Index() {
       <div className="w-full h-full flex justify-center items-center my-5 mx-5 flex-wrap">
         {list?.map((item) => {
           return (
-            <div className="w-60 h-80 border-2 bg-white py-2 px-2 flex justify-center items-center relative mx-9 mb-6">
+            <div
+              className="w-60 h-80 border-2 bg-white py-2 px-2 flex justify-center items-center relative mx-9 mb-6"
+              style={{
+                backgroundImage: `url(${fixBug(postDetail?.post?.picture)})`,
+              }}
+            >
               {/* 展示照片位置 */}
               <div
                 className="w-full h-full bg-gray-300"
