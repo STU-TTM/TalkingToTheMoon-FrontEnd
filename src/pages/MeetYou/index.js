@@ -50,15 +50,13 @@ export default function Index() {
       <div className="w-full h-full flex justify-center items-center my-5 mx-5 flex-wrap">
         {list?.map((item) => {
           return (
-            <div
-              className="w-60 h-80 border-2 bg-white py-2 px-2 flex justify-center items-center relative mx-9 mb-6"
-              style={{
-                backgroundImage: `url(${fixBug(postDetail?.post?.picture)})`,
-              }}
-            >
+            <div className="w-60 h-80 border-2 bg-white py-2 px-2 flex justify-center items-center relative mx-9 mb-6">
               {/* 展示照片位置 */}
               <div
                 className="w-full h-full bg-gray-300"
+                style={{
+                  backgroundImage: `url(${fixBug(item?.picture)})`,
+                }}
                 onMouseOver={() => {
                   setHoverOrNot("block");
                 }}
@@ -90,10 +88,10 @@ export default function Index() {
                   {/* 头像 */}
                   <div className="w-9 h-9 rounded-full border-2 mr-2"></div>
                   {/* 昵称 */}
-                  <div className="">昵称</div>
+                  <div className="">{item.anonymity}</div>
                 </div>
-                <div className="flex justify-center items-center h-12">
-                  <div>text and description……………………</div>
+                <div className="flex justify-center items-start h-12 overflow-hidden">
+                  <div>{item.content}</div>
                 </div>
               </div>
             </div>
