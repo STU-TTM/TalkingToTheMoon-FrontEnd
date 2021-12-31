@@ -31,7 +31,10 @@ function App() {
     if (res.data.code === 200) {
       showToast(2000, "登录成功");
       navigate(-1);
-    } else showToast(2000, "登录失败");
+    } else {
+      showToast(2000, "登录失败");
+      navigate(-1);
+    }
     console.log(res);
   };
 
