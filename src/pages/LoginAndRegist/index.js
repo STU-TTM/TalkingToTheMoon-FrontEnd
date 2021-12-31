@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Navbar from "../../component/Navbar";
 import IdentifyCodePage from "../../component/IdentifyCodePage";
 import { CSSTransition } from "react-transition-group";
 import Require from "../../utils/request";
 import { LOGIN, REGISTER } from "../../utils/pathMap";
+import { ToastContext } from "../../App";
 
 function App() {
+  const showToast = useContext(ToastContext);
   const [userChoice, setUserChoice] = useState("Login");
   const [showIdentify, setShowIdentify] = useState(false);
   useEffect(() => {
@@ -24,6 +26,8 @@ function App() {
       email: loginUsername,
       password: loginPassword,
     });
+    if (res.data.code === 200) showToast(2000, "登录成功");
+    else showToast(2000, "登录失败");
     console.log(res);
   };
 
