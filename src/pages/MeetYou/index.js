@@ -17,6 +17,7 @@ export default function Index() {
         current: 1,
         limit: 10,
       });
+      console.log(res.data.data);
       if (res.data.code === 1) setList(res.data.data);
       else navigate("/loginAndRegist", { replace: true });
     };
@@ -35,11 +36,14 @@ export default function Index() {
         current: 1,
         limit: 5,
       });
+      console.log("!!!!!!!!!!!");
       console.log(res.data.data);
+      console.log("!!!!!!!!!!!");
       setPostDetail(res.data.data);
     };
     fetchData();
   }, [detailId]);
+
   const [hoverOrNot, setHoverOrNot] = useState("block");
   return (
     <Navbar choice="Love">
