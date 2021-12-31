@@ -1,28 +1,45 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
 import request from "../../utils/request";
-import { LOGIN, GETPOSTLISTBYPAGE } from "../../utils/pathMap";
-import { Link } from "react-router-dom";
+import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
+import { Link, useNavigate } from "react-router-dom";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
+import fixBug from "../../utils/fixImgUrlBug";
 
 export default function Index() {
   const [list, setList] = useState(undefined);
+  const [detailId, setDetailId] = useState(undefined);
+  const [postDetail, setPostDetail] = useState(undefined);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await request.post(GETPOSTLISTBYPAGE, {
+        current: 1,
+        limit: 10,
+      });
+      if (res.data.code === 1) setList(res.data.data);
+      else navigate("/loginAndRegist", { replace: true });
+    };
+    fetchData();
+  }, [navigate]);
+
   useEffect(() => {
     const fetchData = async () => {
       let res = await request.post(LOGIN, {
         email: "1",
         password: "1",
       });
-      console.log(res);
 
-      res = await request.post(GETPOSTLISTBYPAGE, {
+      res = await request.post(GETPOSTDETAIL, {
+        postid: detailId,
         current: 1,
-        limit: 10,
+        limit: 5,
       });
       console.log(res.data.data);
-      setList(res.data.data);
+      setPostDetail(res.data.data);
     };
     fetchData();
-  }, []);
+  }, [detailId]);
   const [hoverOrNot, setHoverOrNot] = useState("block");
   return (
     <Navbar choice="Love">
