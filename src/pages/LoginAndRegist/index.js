@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Navbar from "../../component/Navbar";
 import IdentifyCodePage from "../../component/IdentifyCodePage";
 import { CSSTransition } from "react-transition-group";
+import Require from "../../utils/request";
+import { LOGIN, REGISTER } from "../../utils/pathMap";
 
 function App() {
   const [userChoice, setUserChoice] = useState("Login");
@@ -9,6 +11,31 @@ function App() {
   useEffect(() => {
     console.log(showIdentify);
   }, [showIdentify]);
+
+  const [loginUsername, setLoginUsername] = useState(undefined);
+  const [loginPassword, setLoginPassword] = useState(undefined);
+  const [registEmail, setRegistEmail] = useState(undefined);
+  const [registPassword, setRegistPassword] = useState(undefined);
+  const [registRePassword, setRegistRePassword] = useState(undefined);
+  const [registUsername, setRegistUsername] = useState(undefined);
+
+  const sentLogin = async () => {
+    const res = await Require.post(LOGIN, {
+      email: loginUsername,
+      password: loginPassword,
+    });
+    console.log(res);
+  };
+
+  const sentRegist = async () => {
+    const res = await Require.post(REGISTER, {
+      username: registUsername,
+      email: registEmail,
+      password: registPassword,
+    });
+    console.log(res);
+  };
+
   return (
     <>
       <CSSTransition
@@ -108,6 +135,10 @@ function App() {
                 <input
                   type="text"
                   placeholder="你的账户"
+                  value={loginUsername}
+                  onChange={(e) => {
+                    setLoginUsername(e.target.value);
+                  }}
                   className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
                 />
               </div>
@@ -115,12 +146,20 @@ function App() {
                 <input
                   type="password"
                   placeholder="密码"
+                  value={loginPassword}
+                  onChange={(e) => {
+                    setLoginPassword(e.target.value);
+                  }}
                   className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
                 />
               </div>
             </div>
             {/* 登录按钮 */}
-            <div className="w-24 h-11 rounded-2xl bg-gray-300 flex justify-center items-center">
+            <div
+              className="w-24 h-11 rounded-2xl bg-white flex justify-center items-center
+              hover:shadow-md transition-all cursor-pointer"
+              onClick={sentLogin}
+            >
               <span>login</span>
             </div>
             {/* 用于撑开flex布局 */}
@@ -142,12 +181,23 @@ function App() {
             <div className=""></div>
             {/* 注册标题 */}
             <div className="text-2xl font-bold">Regist</div>
-            {/* 注册的两个输入框 */}
+            {/* 注册的四个输入框 */}
             <div className="">
+              <div className="w-80 h-10 rounded-3xl my-5">
+                <input
+                  type="text"
+                  placeholder="你的用户名"
+                  value={registUsername}
+                  onChange={(e) => setRegistUsername(e.target.value)}
+                  className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
+                />
+              </div>
               <div className="w-80 h-10 rounded-3xl my-5">
                 <input
                   type="email"
                   placeholder="你的邮件"
+                  value={registEmail}
+                  onChange={(e) => setRegistEmail(e.target.value)}
                   className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
                 />
               </div>
@@ -155,6 +205,8 @@ function App() {
                 <input
                   type="password"
                   placeholder="密码"
+                  value={registPassword}
+                  onChange={(e) => setRegistPassword(e.target.value)}
                   className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
                 />
               </div>
@@ -162,14 +214,20 @@ function App() {
                 <input
                   type="password"
                   placeholder="确认密码"
+                  value={registRePassword}
+                  onChange={(e) => setRegistRePassword(e.target.value)}
                   className="w-80 h-10 rounded-3xl bg-white outline-none pl-4 hover:ring-1 focus:ring-2 duration-500"
                 />
               </div>
             </div>
             {/* 注册按钮 */}
             <div
-              className="w-24 h-11 rounded-2xl bg-white flex justify-center items-center cursor-pointer"
-              onClick={() => setShowIdentify(true)}
+              className="w-24 h-11 rounded-2xl bg-white flex justify-center 
+              items-center cursor-pointer hover:shadow-md transition-all "
+              onClick={() => {
+                // setShowIdentify(true)
+                sentRegist();
+              }}
             >
               <span>regist</span>
             </div>
