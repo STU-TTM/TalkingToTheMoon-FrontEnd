@@ -74,14 +74,19 @@ export default function Index() {
                   </div>
                 </div>
                 {/* 帖子图片 */}
-                <div
-                  className="w-64 h-64 border"
+                <img
+                  className=" h-2/3"
+                  src={fixBug(postDetail?.post?.picture)}
+                  alt="帖子详细图片"
+                />
+                {/* <div
+                  className=""
                   style={{
                     backgroundImage: `url(${fixBug(
                       postDetail?.post?.picture
                     )})`,
                   }}
-                ></div>
+                ></div> */}
                 {/* 帖子内容 */}
                 <div className="w-4/5">{postDetail?.post?.content}</div>
                 {/* 撑开flex */}
