@@ -2,28 +2,25 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
 import request from "../../utils/request";
 import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 
 export default function Index() {
   const [list, setList] = useState(undefined);
   const [detailId, setDetailId] = useState(undefined);
   const [postDetail, setPostDetail] = useState(undefined);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
-      let res = await request.post(LOGIN, {
-        email: "1",
-        password: "1",
-      });
-
-      res = await request.post(GETPOSTLISTBYPAGE, {
+      const res = await request.post(GETPOSTLISTBYPAGE, {
         current: 1,
         limit: 10,
       });
-      setList(res.data.data);
+      if (res.data.code === 1) setList(res.data.data);
+      else navigate("/loginAndRegist", { replace: true });
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
