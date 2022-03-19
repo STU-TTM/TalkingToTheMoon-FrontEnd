@@ -6,6 +6,7 @@ import Require from "../../utils/request";
 import { LOGIN, REGISTER } from "../../utils/pathMap";
 import { ToastContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function App() {
   const showToast = useContext(ToastContext);
@@ -16,18 +17,22 @@ function App() {
     console.log(showIdentify);
   }, [showIdentify]);
 
-  const [loginUsername, setLoginUsername] = useState(undefined);
-  const [loginPassword, setLoginPassword] = useState(undefined);
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const [registEmail, setRegistEmail] = useState(undefined);
   const [registPassword, setRegistPassword] = useState(undefined);
   const [registRePassword, setRegistRePassword] = useState(undefined);
   const [registUsername, setRegistUsername] = useState(undefined);
 
   const sentLogin = async () => {
-    const res = await Require.post(LOGIN, {
-      email: loginUsername,
-      password: loginPassword,
-    });
+    const res = await Require.post(
+      LOGIN,
+      {
+        email: 1,
+        password: 1,
+      },
+      { maxContentLength: 2000 }
+    );
     if (res.data.code === 200) {
       showToast(2000, "登录成功");
       navigate(-1);
@@ -171,7 +176,7 @@ function App() {
               hover:shadow-md transition-all cursor-pointer"
               onClick={sentLogin}
             >
-              <span>login</span>
+              <span>login++{loginUsername}</span>
             </div>
             {/* 用于撑开flex布局 */}
             <div className=""></div>

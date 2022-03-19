@@ -5,6 +5,7 @@ const ContentAlign = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+  we
 `;
 
 export default function index() {
