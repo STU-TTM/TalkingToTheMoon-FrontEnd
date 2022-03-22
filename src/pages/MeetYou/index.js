@@ -4,7 +4,7 @@ import request from "../../utils/request";
 import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
 import { Link, useNavigate } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import fixBug from "../../utils/fixImgUrlBug";
+import MeetyouCard from "../../component/MeetyouCard";
 
 export default function Index() {
   const [list, setList] = useState(undefined);
@@ -44,58 +44,11 @@ export default function Index() {
     fetchData();
   }, [detailId]);
 
-  const [hoverOrNot, setHoverOrNot] = useState("block");
   return (
     <Navbar choice="Love">
       <div className="w-full h-full flex justify-center items-center my-5 mx-5 flex-wrap">
         {list?.map((item) => {
-          return (
-            <div className="w-60 h-80 border-2 bg-white py-2 px-2 flex justify-center items-center relative mx-9 mb-6">
-              {/* 展示照片位置 */}
-              <div
-                className="w-full h-full bg-gray-300"
-                style={{
-                  backgroundImage: `url(${fixBug(item?.picture)})`,
-                }}
-                onMouseOver={() => {
-                  setHoverOrNot("block");
-                }}
-                // onMouseOut={() => {
-                //   setHoverOrNot("none");
-                // }}
-              ></div>
-              {/* hover显示位置 */}
-              <div
-                className="absolute bottom-0 w-full px-2 h-28 flex justify-around flex-col"
-                style={{
-                  backgroundColor: "rgba(0,0,0,.3)",
-                  display: `${hoverOrNot}`,
-                }}
-                onMouseOver={() => {
-                  setHoverOrNot("block");
-                }}
-                // onMouseOut={() => {
-                //   setHoverOrNot("none");
-                // }}
-              >
-                {/* 点赞 */}
-                <div className="flex justify-between items-center text-xs">
-                  <div></div>
-                  <div className="">101k ❤</div>
-                </div>
-                {/* 头像以及昵称 */}
-                <div className="flex items-center">
-                  {/* 头像 */}
-                  <div className="w-9 h-9 rounded-full border-2 mr-2"></div>
-                  {/* 昵称 */}
-                  <div className="">{item.anonymity}</div>
-                </div>
-                <div className="flex justify-center items-start h-12 overflow-hidden">
-                  <div>{item.content}</div>
-                </div>
-              </div>
-            </div>
-          );
+          return <MeetyouCard item={item}></MeetyouCard>;
         })}
       </div>
     </Navbar>
