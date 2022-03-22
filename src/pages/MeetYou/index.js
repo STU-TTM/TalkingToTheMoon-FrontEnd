@@ -46,10 +46,29 @@ export default function Index() {
 
   return (
     <Navbar choice="Love">
-      <div className="w-full h-full flex justify-center items-center my-5 mx-5 flex-wrap">
-        {list?.map((item) => {
-          return <MeetyouCard item={item}></MeetyouCard>;
-        })}
+      <div className="w-full h-full flex flex-col items-center">
+        <div className="w-full h-full flex justify-center items-center my-5 mx-5 flex-wrap">
+          {list?.map((item) => {
+            return <MeetyouCard item={item}></MeetyouCard>;
+          })}
+        </div>
+        <div className="flex w-full h-11 flex-row bg-gray-100 items-center justify-center mb-10">
+          <div className="w-5 h-5 border border-black mx-2 rounded-sm flex justify-center items-center cursor-pointer">
+            1
+          </div>
+          <div className="w-5 h-5 border border-black mx-2 rounded-sm flex justify-center items-center cursor-pointer">
+            2
+          </div>
+          <div className="w-5 h-5 border border-black mx-2 rounded-sm flex justify-center items-center cursor-pointer">
+            3
+          </div>
+          <div className="w-5 h-5 border border-black mx-2 rounded-sm flex justify-center items-center cursor-pointer">
+            4
+          </div>
+          <div className="w-5 h-5 border border-black mx-2 rounded-sm flex justify-center items-center cursor-pointer">
+            5
+          </div>
+        </div>
       </div>
     </Navbar>
   );
