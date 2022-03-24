@@ -5,6 +5,7 @@ import CommunityListPage from "./pages/CommunityListPage";
 import Home from "./pages/Home";
 import { CSSTransition } from "react-transition-group";
 import MeetYou from "./pages/MeetYou";
+import MeetyouDetail from "./component/MeetyouDetail";
 
 export const ToastContext = React.createContext(undefined);
 
@@ -40,14 +41,10 @@ export default function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/loginAndRegist" element={<LoginAndRegist />}></Route>
           <Route path="/community" element={<CommunityListPage />}></Route>
+          <Route path="/meetYou" element={<MeetYou />} />
+          <Route path="/meetYou/:id" element={<MeetyouDetail />} />
         </Routes>
       </ToastContext.Provider>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/loginAndRegist" element={<LoginAndRegist />}></Route>
-        <Route path="/community" element={<CommunityListPage />}></Route>
-        <Route path="/meetYou" element={<MeetYou />}></Route>
-      </Routes>
     </BrowserRouter>
   );
 }

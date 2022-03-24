@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
-import request from "../../utils/request";
-import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
-import { Link, useNavigate } from "react-router-dom";
+import request from "../../component/utils/request";
+import {
+  LOGIN,
+  GETPOSTLISTBYPAGE,
+  GETPOSTDETAIL,
+} from "../../component/utils/pathMap";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import MeetyouCard from "../../component/MeetyouCard";
+import MeetyouDetail from "../../component/MeetyouDetail";
 
-export default function Index() {
+export default function Index(props) {
   const [list, setList] = useState(undefined);
   const [detailId, setDetailId] = useState(undefined);
   const [postDetail, setPostDetail] = useState(undefined);
@@ -47,6 +52,7 @@ export default function Index() {
   return (
     <Navbar choice="Love">
       <div className="w-full h-full flex flex-col items-center">
+        <Outlet></Outlet>
         <div className="w-full h-full flex justify-center items-center my-5 mx-5 flex-wrap">
           {list?.map((item) => {
             return <MeetyouCard item={item}></MeetyouCard>;

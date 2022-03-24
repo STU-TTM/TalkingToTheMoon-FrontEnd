@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import fixBug from "../../utils/fixImgUrlBug";
+import { Link } from "react-router-dom";
+import fixBug from "../utils/fixImgUrlBug";
 
 export default function Index(props) {
   const [hoverOrNot, setHoverOrNot] = useState("hidden");
   return (
-    <div className="w-64 h-80 border-2 bg-white py-2 px-2 flex justify-center items-center relative mx-9 mb-6 overflow-hidden">
+    <div
+      className="w-64 h-80 border-2 bg-white py-2 px-2 flex justify-center items-center relative m-6 overflow-hidden"
+      onMouseOver={() => {
+        setHoverOrNot("visible");
+      }}
+      onMouseOut={() => {
+        setHoverOrNot("hidden");
+      }}
+    >
       {/* 展示照片位置 */}
-      <div
+      <Link
+        to={`${props.item.id}`}
         className={`w-full h-full cursor-pointer transition-all transform bg-cover duration-500 ${
           hoverOrNot === "hidden" ? "" : "scale-125"
         }`}
         style={{
           backgroundImage: `url(${fixBug(props.item?.picture)})`,
         }}
-        onMouseOver={() => {
-          setHoverOrNot("visible");
-        }}
-        onMouseOut={() => {
-          setHoverOrNot("hidden");
-        }}
-        onClick={() => {
-          alert("跳转链接");
-        }}
-      ></div>
+      ></Link>
       {/* hover显示位置 */}
       <div
         className={`absolute z-10 bottom-0 w-full px-2 h-28 flex justify-around flex-col text-white duration-700 ${
@@ -31,12 +32,6 @@ export default function Index(props) {
         style={{
           backgroundColor: "rgba(0,0,0,.3)",
           visibility: `${hoverOrNot}`,
-        }}
-        onMouseOver={() => {
-          setHoverOrNot("visible");
-        }}
-        onMouseOut={() => {
-          setHoverOrNot("hidden");
         }}
       >
         {/* 点赞 */}

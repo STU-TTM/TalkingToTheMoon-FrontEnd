@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
-import request from "../../utils/request";
-import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
+import request from "../../component/utils/request";
+import {
+  LOGIN,
+  GETPOSTLISTBYPAGE,
+  GETPOSTDETAIL,
+} from "../../component/utils/pathMap";
 import { Link, useNavigate } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import fixBug from "../../utils/fixImgUrlBug";
+import fixBug from "../../component/utils/fixImgUrlBug";
 
 export default function Index() {
   const [list, setList] = useState(undefined);
@@ -60,7 +64,7 @@ export default function Index() {
                 setShowDetail(false);
               }}
               className="h-screen w-screen bg-gray-700 bg-opacity-30 fixed pt-2 top-0 
-        flex justify-center items-center "
+        flex justify-center items-center z-50"
             >
               <div
                 className="w-5/6 h-5/6 bg-white rounded-2xl flex flex-col justify-between items-center"
@@ -140,11 +144,17 @@ export default function Index() {
                 setDetailId(item.id);
               }}
               className="w-80 mx-2 my-6 bg-white rounded-lg shadow-lg inline-block hover:shadow-2xl 
-              transition-all cursor-pointer"
+              transition-all duration-300 cursor-pointer "
             >
               {/* 图片 */}
               {item.picture !== null && (
-                <img src={fixBug(item?.picture)} alt="post_picture" />
+                <div className="overflow-hidden">
+                  <img
+                    src={fixBug(item?.picture)}
+                    alt="post_picture"
+                    className="transform hover:scale-125 transition-all duration-500"
+                  />
+                </div>
               )}
 
               {/* 头像和匿名称呼 */}
