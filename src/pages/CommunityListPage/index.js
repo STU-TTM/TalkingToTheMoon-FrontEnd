@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
-import request from "../../component/utils/request";
-import {
-  LOGIN,
-  GETPOSTLISTBYPAGE,
-  GETPOSTDETAIL,
-} from "../../component/utils/pathMap";
+import request from "../../utils/request";
+import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
 import { Link, useNavigate } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import fixBug from "../../component/utils/fixImgUrlBug";
+import fixBug from "../../utils/fixImgUrlBug";
 
 export default function Index() {
   const [list, setList] = useState(undefined);
