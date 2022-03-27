@@ -16,7 +16,7 @@ export default function Index(props) {
     >
       {/* 展示照片位置 */}
       <Link
-        to={`${props.item.id}`}
+        to={{ pathname: `${props.item.id}` }}
         className={`w-full h-full cursor-pointer transition-all transform bg-cover duration-500 ${
           hoverOrNot === "hidden" ? "" : "scale-125"
         }`}
