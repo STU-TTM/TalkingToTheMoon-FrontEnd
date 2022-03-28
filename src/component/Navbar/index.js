@@ -15,7 +15,7 @@ export default function Index(props) {
         style={{ boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.25)" }}
       >
         {/* navbar-left */}
-        <div className="h-full w-auto flex justify-center items-center">
+        <Link className="h-full w-auto flex justify-center items-center" to="/">
           <div className="w-8 h-8 mx-5 rounded-full bg-white"></div>
           <div
             className="w-32 h-8 text-base font-bold text-white"
@@ -23,7 +23,7 @@ export default function Index(props) {
           >
             STU-TTM
           </div>
-        </div>
+        </Link>
         {/* navbar-middle */}
         <div className="flex justify-around items-center h-full w-52 font-bold">
           <Link
@@ -124,7 +124,10 @@ export default function Index(props) {
             </svg>
           </div>
           {/* 用户 */}
-          <div className="rounded-full overflow-hidden mx-3 w-8 h-8 ">
+          <Link
+            className="rounded-full overflow-hidden mx-3 w-8 h-8 "
+            to="/personal"
+          >
             <svg
               t="1639106558848"
               class="icon"
@@ -141,7 +144,7 @@ export default function Index(props) {
                 p-id="6310"
               ></path>
             </svg>
-          </div>
+          </Link>
         </div>
       </div>
       {props.children}

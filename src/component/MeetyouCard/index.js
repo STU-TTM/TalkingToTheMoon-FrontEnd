@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import fixBug from "../utils/fixImgUrlBug";
+import fixBug from "../../utils/fixImgUrlBug";
 
 export default function Index(props) {
   const [hoverOrNot, setHoverOrNot] = useState("hidden");

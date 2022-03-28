@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
-import request from "../../component/utils/request";
-import {
-  LOGIN,
-  GETPOSTLISTBYPAGE,
-  GETPOSTDETAIL,
-} from "../../component/utils/pathMap";
+import request from "../../utils/request";
+import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import MeetyouCard from "../../component/MeetyouCard";
