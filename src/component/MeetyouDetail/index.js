@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../Navbar";
 import styled from "styled-components";
@@ -19,6 +19,9 @@ export default function Index(props) {
   useEffect(() => {
     console.log(params);
   });
+  const [comment, setComment] = useState("");
+  const [commentToName, setCommentToName] = useState("who");
+  const [commentToId, setCommentToId] = useState();
   return (
     <Navbar choice="Love">
       {/* 主要呈现内容部分 */}
@@ -63,13 +66,17 @@ export default function Index(props) {
         <div className="max-h-screen w-full flex flex-col my-5">
           {/* 这里是发送评论处 */}
           <div className="w-full h-auto mb-5 flex flex-col sm:flex-row rounded-md shadow-md p-1 bg-white">
-            <div className="flex flex-row sm:flex-col">
-              <div className="">REPLY TO :</div>
-              <div className="">who</div>
+            <div className="flex flex-row sm:flex-col mr-1">
+              <div className="w-24">REPLY TO :</div>
+              <div className="w-24 sm:overflow-x-hidden">{commentToName}</div>
             </div>
             <div className="w-full">
               <textarea
                 name=""
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
                 className="resize-none w-full h-32 bg-gray-100 p-2 shadow-inner outline-none focus:shadow-md"
               ></textarea>
             </div>
@@ -81,7 +88,12 @@ export default function Index(props) {
           </div>
           {/* 这里是展示评论处 */}
           <ScrollBarHidden className="h-full p-2 overflow-auto bg-white rounded-lg shadow-md">
-            <div className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col">
+            <div
+              className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col"
+              onClick={() => {
+                setCommentToName("12121221adad1");
+              }}
+            >
               {/* 评论来源及对象 */}
               <div className="">
                 who <span className="text-sm text-gray-300">reply to</span> who
@@ -95,7 +107,12 @@ export default function Index(props) {
                 2022-03-27 19:48
               </div>
             </div>
-            <div className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col">
+            <div
+              className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col"
+              onClick={() => {
+                setCommentToName("2");
+              }}
+            >
               {/* 评论来源及对象 */}
               <div className="">
                 who <span className="text-sm text-gray-300">reply to</span> who
@@ -109,7 +126,12 @@ export default function Index(props) {
                 2022-03-27 19:48
               </div>
             </div>
-            <div className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col">
+            <div
+              className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col"
+              onClick={() => {
+                setCommentToName("3");
+              }}
+            >
               {/* 评论来源及对象 */}
               <div className="">
                 who <span className="text-sm text-gray-300">reply to</span> who
