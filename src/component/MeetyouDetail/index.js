@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import styled from "styled-components";
+import request from "../../utils/request";
+import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
+import fixBug from "../../utils/fixImgUrlBug";
 
 const ScrollBarHidden = styled.div`
   ::-webkit-scrollbar {
@@ -15,13 +18,28 @@ const ScrollBarHidden = styled.div`
 `;
 
 export default function Index(props) {
+  const navigate = useNavigate();
   const params = useParams();
-  useEffect(() => {
-    console.log(params);
-  });
+  // useEffect(() => {
+  //   console.log(params);
+  // });
   const [comment, setComment] = useState("");
   const [commentToName, setCommentToName] = useState("who");
   const [commentToId, setCommentToId] = useState();
+  const [data, setData] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await request.post(GETPOSTDETAIL, {
+        postid: params.id,
+        current: 1,
+        limit: 10,
+      });
+      //   console.log(res.data);
+      if (res.data.code === 200) setData(res.data.data);
+      else navigate("/loginAndRegist", { replace: true });
+    };
+    fetchData();
+  }, [navigate]);
   return (
     <Navbar choice="Love">
       {/* 主要呈现内容部分 */}
@@ -33,37 +51,34 @@ export default function Index(props) {
             className="w-20 h-20 rounded-full border border-black bg-cover"
             style={{
               backgroundImage:
-                "url(https://img0.baidu.com/it/u=597387104,4013674410&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500)",
+                data?.author.head_portrait_thumbnail === null
+                  ? "url(https://img0.baidu.com/it/u=597387104,4013674410&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500)"
+                  : data?.author.head_portrait_thumbnail,
             }}
           ></div>
           {/* 昵称 */}
-          <div className="">this is my name</div>
+          <div className="">{data?.post.anonymity}</div>
         </div>
         {/* 表白墙该id内容部分 */}
         <div className="w-full h-full">
           <div className="w-auto h-auto flex flex-col lg:flex-row justify-center items-center p-3 md:py-10 lg:py-16 rounded-2xl bg-white shadow-md hover:shadow-2xl duration-500">
             {/* 帖子照片 */}
             <div className="sm:max-w-md md:max-w-xl lg:max-w-none lg:w-1/2 h-full py-3 md:py-5 lg:px-10 lg:py-0">
-              <img
-                src="https://img2.baidu.com/it/u=140623931,3596749511&fm=253&fmt=auto&app=138&f=JPEG?w=749&h=500"
-                alt="帖子照片"
-              />
+              <img src={`${fixBug(data?.post.picture)}`} alt="帖子照片" />
             </div>
             {/* 帖子文字内容 */}
             <div className="sm:max-w-md md:max-w-xl lg:max-w-none w-full lg:w-1/2 py-3 md:py-5 lg:px-10 lg:py-0">
               {/* 帖子内容 */}
-              <div className="">
-                这里是关于表白墙帖子的主要呈现内容部分，左侧是帖子唯一仅存的一张照片，本处是关于照片的描述等等这里是关于表白墙帖子的主要呈现内容部分，左侧是帖子唯一仅存的一张照片，本处是关于照片的描述等等这里是关于表白墙帖子的主要呈现内容部分，左侧是帖子唯一仅存的一张照片，本处是关于照片的描述等等这里是关于表白墙帖子的主要呈现内容部分，左侧是帖子唯一仅存的一张照片，本处是关于照片的描述等等这里是关于表白墙帖子的主要呈现内容部分，左侧是帖子唯一仅存的一张照片，本处是关于照片的描述等等这里是关于表白墙帖子的主要呈现内容部分，左侧是帖子唯一仅存的一张照片，本处是关于照片的描述等等这里是关于表白墙帖子的主要呈现内容部分，左侧是帖子唯一仅存的一张照片，本处是关于照片的描述等等
-              </div>
+              <div className="">{data?.post.content}</div>
               {/* 帖子日期 */}
               <div className="w-full text-right text-xs text-gray-500">
-                2022-03-26 12:40
+                {data?.post.create_time}
               </div>
             </div>
           </div>
         </div>
         {/* 评论部分 */}
-        <div className="max-h-screen w-full flex flex-col my-5">
+        <div className="max-h-screen w-full flex flex-col mt-5">
           {/* 这里是发送评论处 */}
           <div className="w-full h-auto mb-5 flex flex-col sm:flex-row rounded-md shadow-md p-1 bg-white">
             <div className="flex flex-row sm:flex-col mr-1">
@@ -88,65 +103,87 @@ export default function Index(props) {
           </div>
           {/* 这里是展示评论处 */}
           <ScrollBarHidden className="h-full p-2 overflow-auto bg-white rounded-lg shadow-md">
-            <div
-              className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col"
-              onClick={() => {
-                setCommentToName("12121221adad1");
-              }}
-            >
-              {/* 评论来源及对象 */}
-              <div className="">
-                who <span className="text-sm text-gray-300">reply to</span> who
+            {data?.comments.length === 0 ? (
+              <div className="flex justify-center items-center p-1">
+                您或将成为该贴第一条评论
               </div>
-              {/* 评论内容 */}
-              <div className="pl-10">
-                外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。而左右外边距不合并。在CSS当中，相邻的两个盒子（可能是兄弟关系也可能是祖先关系）的外边距可以结合成一个单独的外边距。这种合并外边距的方式被称为折叠，并且因而所结合成的外边距称为折叠外边距。
-              </div>
-              {/* 评论时间 */}
-              <div className="w-full text-right text-xs text-gray-400 mt-1">
-                2022-03-27 19:48
-              </div>
-            </div>
-            <div
-              className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col"
-              onClick={() => {
-                setCommentToName("2");
-              }}
-            >
-              {/* 评论来源及对象 */}
-              <div className="">
-                who <span className="text-sm text-gray-300">reply to</span> who
-              </div>
-              {/* 评论内容 */}
-              <div className="pl-10">
-                外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。而左右外边距不合并。在CSS当中，相邻的两个盒子（可能是兄弟关系也可能是祖先关系）的外边距可以结合成一个单独的外边距。这种合并外边距的方式被称为折叠，并且因而所结合成的外边距称为折叠外边距。
-              </div>
-              {/* 评论时间 */}
-              <div className="w-full text-right text-xs text-gray-400">
-                2022-03-27 19:48
-              </div>
-            </div>
-            <div
-              className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-col"
-              onClick={() => {
-                setCommentToName("3");
-              }}
-            >
-              {/* 评论来源及对象 */}
-              <div className="">
-                who <span className="text-sm text-gray-300">reply to</span> who
-              </div>
-              {/* 评论内容 */}
-              <div className="pl-10">
-                外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。而左右外边距不合并。
-              </div>
-              {/* 评论时间 */}
-              <div className="w-full text-right text-xs text-gray-400">
-                2022-03-27 19:48
-              </div>
-            </div>
-            {/* <div className="w-full h-40">4</div> */}
-            {/* <div className="w-full h-40">5</div> */}
+            ) : (
+              data?.comments.map((item) => (
+                <div
+                  className="w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-row"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCommentToName(item.author.username);
+                    setCommentToId(item.author.uid);
+                  }}
+                >
+                  {/* 评论头像 */}
+                  <div className="mr-2">
+                    <div
+                      className="w-14 h-14 rounded-full bg-cover"
+                      style={{
+                        backgroundImage:
+                          item?.author.head_portrait_thumbnail === null
+                            ? "url(https://img0.baidu.com/it/u=597387104,4013674410&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500)"
+                            : item?.author.head_portrait_thumbnail,
+                      }}
+                    ></div>
+                  </div>
+                  {/* 评论主要内容 */}
+                  <div className="w-full flex flex-col">
+                    {/* 评论来源及对象 */}
+                    <div className="">{item.author.username}</div>
+                    {/* 评论内容 */}
+                    <div className="">{item.comment.content}</div>
+                    {/* 评论时间 */}
+                    <div className="w-full text-right text-xs text-gray-400 mt-1">
+                      {item.comment.create_time}
+                    </div>
+                    {item?.replys.length === 0 ? (
+                      ""
+                    ) : (
+                      <div className="w-full border-t border-black pt-3">
+                        {item.replys.map((double) => (
+                          <div
+                            className="w-full flex flex-row mb-2 shadow-sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCommentToName(double.user.username);
+                              setCommentToId(double.user.uid);
+                            }}
+                          >
+                            {/* 头像 */}
+                            <div className="mr-2">
+                              <div
+                                className="w-8 h-8 rounded-full bg-cover"
+                                style={{
+                                  backgroundImage:
+                                    double?.user.head_portrait_thumbnail ===
+                                    null
+                                      ? "url(https://img0.baidu.com/it/u=597387104,4013674410&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500)"
+                                      : double?.user.head_portrait_thumbnail,
+                                }}
+                              ></div>
+                            </div>
+                            {/* 主要内容 */}
+                            <div className="w-full">
+                              {/* 评论来源及对象 */}
+                              <div className="">{double?.user.username}</div>
+                              {/* 评论内容 */}
+                              <div className="">{double.reply.content}</div>
+                              {/* 评论时间 */}
+                              <div className="w-full text-right text-xs text-gray-400 mt-1">
+                                {double.reply.create_time}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </ScrollBarHidden>
         </div>
       </div>
