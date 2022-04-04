@@ -3,7 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import styled from "styled-components";
 import request from "../../utils/request";
-import { GETPOSTDETAIL } from "../../utils/pathMap";
+import {
+    GETPOSTDETAIL,
+    ADDCOMMENT,
+    GETPERSONALINFORMATION,
+} from "../../utils/pathMap";
 import fixBug from "../../utils/fixImgUrlBug";
 
 const ScrollBarHidden = styled.div`
@@ -21,9 +25,11 @@ export default function Index(props) {
     const navigate = useNavigate();
     const params = useParams();
     const [comment, setComment] = useState("");
-    const [commentToName, setCommentToName] = useState("who");
-    const [commentToId, setCommentToId] = useState();
+    const [commentToName, setCommentToName] = useState("the post");
+    const [target_id, setTarget_id] = useState(undefined);
     const [data, setData] = useState();
+    const [entity_id, setEntity_id] = useState(undefined);
+    // const [userData, setUserData] = useState(undefined);
     useEffect(() => {
         const fetchData = async () => {
             const res = await request.post(GETPOSTDETAIL, {
@@ -31,11 +37,43 @@ export default function Index(props) {
                 current: 1,
                 limit: 10,
             });
+            console.log(res?.data.data);
             if (res.data.code === 200) setData(res.data.data);
             else navigate("/loginAndRegist", { replace: true });
+            // const userData = await request.post(GETPERSONALINFORMATION);
+            // setUserData(userData.data.data);
         };
         fetchData();
     }, [navigate]);
+
+    function handleAddComment() {
+        // console.log("11");
+        if (comment === "") {
+            alert("请填写评论内容");
+            return false;
+        }
+        const fetchData = async () => {
+            var entity_type = 1;
+            if (target_id !== undefined) {
+                entity_type = 2;
+            }
+            const res = await request.post(ADDCOMMENT, {
+                // id: 11,  评论编号
+                // uid: userData.uid,
+                entity_type: entity_type,
+                entity_id: entity_id,
+                target_id: target_id,
+                content: comment,
+                // content: "string",
+                // status: 0,
+                // likes: 0,
+                // create_time: Date.now(),
+            });
+            console.log(res);
+        };
+        fetchData();
+    }
+
     return (
         <Navbar choice="Love">
             {/* 主要呈现内容部分 */}
@@ -57,7 +95,16 @@ export default function Index(props) {
                 </div>
                 {/* 表白墙该id内容部分 */}
                 <div className="w-full h-full">
-                    <div className="w-auto h-auto flex flex-col lg:flex-row justify-center items-center p-3 md:py-10 lg:py-16 rounded-2xl bg-white shadow-md hover:shadow-2xl duration-500">
+                    <div
+                        className="w-auto h-auto flex flex-col lg:flex-row justify-center items-center p-3 md:py-10 lg:py-16 rounded-2xl bg-white shadow-md hover:shadow-2xl duration-500"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setCommentToName("the post");
+                            setTarget_id(undefined);
+                            setComment("");
+                            setTarget_id(data?.post.id);
+                        }}
+                    >
                         {/* 帖子照片 */}
                         <div className="sm:max-w-md md:max-w-xl lg:max-w-none lg:w-1/2 h-full py-3 md:py-5 lg:px-10 lg:py-0">
                             <img
@@ -97,7 +144,12 @@ export default function Index(props) {
                             ></textarea>
                         </div>
                         <div className="p-1 flex flex-col items-center sm:justify-end">
-                            <div className="w-12 px-1 h-auto flex justify-center items-center border border-black rounded-md shadow-inner cursor-pointer hover:shadow-md bg-white">
+                            <div
+                                className="w-12 px-1 h-auto flex justify-center items-center border border-black rounded-md shadow-inner cursor-pointer hover:shadow-md bg-white"
+                                onClick={() => {
+                                    handleAddComment();
+                                }}
+                            >
                                 提交
                             </div>
                         </div>
@@ -115,8 +167,9 @@ export default function Index(props) {
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setCommentToName(item.author.username);
-                                        setCommentToId(item.author.uid);
+                                        setTarget_id(item.author.uid);
                                         setComment("");
+                                        setEntity_id(item.comment.id);
                                     }}
                                 >
                                     {/* 评论头像 */}
@@ -161,10 +214,13 @@ export default function Index(props) {
                                                                 double.user
                                                                     .username
                                                             );
-                                                            setCommentToId(
+                                                            setTarget_id(
                                                                 double.user.uid
                                                             );
                                                             setComment("");
+                                                            setEntity_id(
+                                                                double.reply.id
+                                                            );
                                                         }}
                                                     >
                                                         {/* 头像 */}
@@ -192,6 +248,21 @@ export default function Index(props) {
                                                                     double?.user
                                                                         .username
                                                                 }
+                                                                {double?.target ===
+                                                                null ? (
+                                                                    ""
+                                                                ) : (
+                                                                    <span>
+                                                                        <span className="px-2">
+                                                                            回复:
+                                                                        </span>
+                                                                        {
+                                                                            double
+                                                                                .target
+                                                                                .username
+                                                                        }
+                                                                    </span>
+                                                                )}
                                                             </div>
                                                             {/* 评论内容 */}
                                                             <div className="">

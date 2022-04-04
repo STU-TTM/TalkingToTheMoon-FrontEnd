@@ -8,3 +8,4 @@ export const UPLOADHEADPICTURE = "/uploadHeadportrait";
 export const MODIFYPERSONALPICTURE = "/updateHeadportrait";
 export const INSERTPOST = "/insertPost";
 export const UPLOADPICTURE = "/uploadPicture";
+export const ADDCOMMENT = "/addcomment";

@@ -73,7 +73,13 @@ export default function Index() {
                 content: content,
                 picture: "string",
             });
-            console.log(res);
+            // console.log(res);
+            if (res.status === 200) {
+                alert("发布成功");
+                navigate("/meetyou");
+            } else {
+                alert("发布出错");
+            }
         };
         fetchData();
     }
