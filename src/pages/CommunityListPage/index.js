@@ -41,6 +41,10 @@ export default function Index() {
     fetchData();
   }, [detailId]);
 
+  const navigateToWriting = () => {
+    navigate("/communityWriting");
+  };
+
   const [showDetail, setShowDetail] = useState(false);
   return (
     <Navbar choice="Community">
@@ -97,6 +101,7 @@ export default function Index() {
             <div
               className="fixed  bottom-24 left-1/2 transform -translate-x-1/2 cursor-pointer
             rounded-full  shadow hover:shadow-lg transition-all bg-white"
+              onClick={navigateToWriting}
             >
               <svg
                 t="1640952143705"
