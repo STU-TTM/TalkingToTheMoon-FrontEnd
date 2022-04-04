@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import styled from "styled-components";
 import request from "../../utils/request";
-import { GETPERSONALINFORMATION } from "../../utils/pathMap";
+import fixBug from "../../utils/fixImgUrlBug";
+import {
+    GETPERSONALINFORMATION,
+    INSERTPOST,
+    UPLOADPICTURE,
+} from "../../utils/pathMap";
 const ScrollBarHidden = styled.textarea`
     ::-webkit-scrollbar {
         display: block;
@@ -20,7 +25,6 @@ export default function Index() {
     const [content, setContent] = useState("");
     // 用户信息
     const [data, setData] = useState();
-    const [file, setFile] = useState("");
     const [fileurl, setFileurl] = useState("");
     useEffect(() => {
         const fetchData = async () => {
@@ -32,30 +36,46 @@ export default function Index() {
         fetchData();
     }, [navigate]);
 
-    function handleImageChange(e) {
-        e.preventDefault();
-        var reader = new FileReader();
-        var file = e.target.files[0];
-        if (e.target.files.length === 0) {
-            console.log("无选择图片");
-            return false;
-        }
-        // console.log(e);
-        if (!/image\/\w+/.test(file.type)) {
-            alert("请确保文件为图像类型");
-            return false;
-        }
-        reader.onload = () => {
-            setFile(file);
-            setFileurl(reader.result);
+    const handlePictureUpload = (e) => {
+        const file = e.target.files[0];
+        if (file === undefined) return;
+        const formData = new FormData();
+        formData.append("file", file, file.name);
+        request
+            .post(UPLOADPICTURE, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then(
+                (value) => {
+                    console.log(value);
+                    if (value.data.code !== 200)
+                        throw new Error("图片上传失败");
+                    else {
+                        setFileurl(value.data.data.path);
+                        return value.data.data.path;
+                    }
+                },
+                (reason) => {
+                    console.log(reason);
+                }
+            );
+    };
+
+    function handleButtonClick() {
+        // console.log("11");
+        const fetchData = async () => {
+            const res = await request.post(INSERTPOST, {
+                uid: data.uid,
+                anonymity: data.username,
+                title: "none",
+                content: content,
+                picture: "string",
+            });
+            console.log(res);
         };
-        reader.onabort = () => {
-            console.log("上传取消");
-        };
-        reader.onerror = () => {
-            console.log("上传出错");
-        };
-        reader.readAsDataURL(file);
+        fetchData();
     }
 
     return (
@@ -101,7 +121,7 @@ export default function Index() {
                                     type="file"
                                     className="absolute opacity-0 w-full h-full z-10"
                                     onChange={(e) => {
-                                        handleImageChange(e);
+                                        handlePictureUpload(e);
                                     }}
                                 />
                                 {fileurl === "" ? (
@@ -110,7 +130,7 @@ export default function Index() {
                                     </div>
                                 ) : (
                                     <img
-                                        src={fileurl}
+                                        src={`${fixBug(fileurl)}`}
                                         alt=""
                                         className="w-full"
                                     />
@@ -130,7 +150,12 @@ export default function Index() {
                     </div>
                     {/* 提交button */}
                     <div className="my-2 sm:my-3 md:my-5">
-                        <div className="w-auto h-auto cursor-pointer px-2 rounded-md border border-black shadow-inner hover:shadow-md duration-300">
+                        <div
+                            className="w-auto h-auto cursor-pointer px-2 rounded-md border border-black shadow-inner hover:shadow-md duration-300"
+                            onClick={() => {
+                                handleButtonClick();
+                            }}
+                        >
                             提交
                         </div>
                     </div>

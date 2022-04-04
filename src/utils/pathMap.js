@@ -6,3 +6,5 @@ export const GETPOSTDETAIL = "/Postdetail";
 export const GETPERSONALINFORMATION = "/userdetail";
 export const UPLOADHEADPICTURE = "/uploadHeadportrait";
 export const MODIFYPERSONALPICTURE = "/updateHeadportrait";
+export const INSERTPOST = "/insertPost";
+export const UPLOADPICTURE = "/uploadPicture";
