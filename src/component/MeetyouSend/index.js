@@ -29,7 +29,7 @@ export default function Index() {
     useEffect(() => {
         const fetchData = async () => {
             const res = await request.post(GETPERSONALINFORMATION);
-            console.log(res.data.data);
+            // console.log(res.data.data);
             if (res.data.code === 200) setData(res.data.data);
             else navigate("/loginAndRegist", { replace: true });
         };
@@ -49,7 +49,7 @@ export default function Index() {
             })
             .then(
                 (value) => {
-                    console.log(value);
+                    // console.log(value);
                     if (value.data.code !== 200)
                         throw new Error("图片上传失败");
                     else {
@@ -64,7 +64,6 @@ export default function Index() {
     };
 
     function handleButtonClick() {
-        // console.log("11");
         const fetchData = async () => {
             const res = await request.post(INSERTPOST, {
                 uid: data.uid,
