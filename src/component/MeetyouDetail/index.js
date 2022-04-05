@@ -44,14 +44,16 @@ export default function Index(props) {
       // console.log(res?.data.data);
       if (res.data.code === 200) {
         setData(res.data.data);
-        setEntity_id(data?.post.id);
-        setTarget_id(data?.post.id);
+        if (entity_id === undefined && target_id === undefined) {
+          setEntity_id(data?.post.id);
+          setTarget_id(data?.post.id);
+        }
       } else navigate("/loginAndRegist", { replace: true });
       // const userData = await request.post(GETPERSONALINFORMATION);
       // setUserData(userData.data.data);
     };
     fetchData();
-  }, [navigate, params.id, commentToName, data?.post.id, isSubmited]);
+  }, [navigate, params.id, data?.post.id, isSubmited, entity_id, target_id]);
 
   function handleAddComment() {
     // console.log("11");
