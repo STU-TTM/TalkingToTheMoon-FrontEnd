@@ -25,13 +25,14 @@ function Item(props) {
           {props.label}
         </div>
         {/* 内容 */}
-        <div className="font-normal text-base w-32 text-center p-1 bg-white rounded">
+        <div className="font-normal text-base min-w-max w-32 text-center p-1 bg-white rounded">
           {(function () {
             switch (props.label) {
               case "姓名":
                 return personalInformation?.username;
               case "邮箱":
-                return personalInformation?.email;
+                // return personalInformation?.email;
+                return "19zkhuang1@stu.edu.cn";
               case "生日":
                 return "2022.1.1";
               case "性别":
