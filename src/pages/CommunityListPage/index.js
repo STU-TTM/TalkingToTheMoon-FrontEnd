@@ -100,7 +100,7 @@ export default function Index() {
           ) : (
             <div
               className="fixed  bottom-24 left-1/2 transform -translate-x-1/2 cursor-pointer
-            rounded-full  shadow hover:shadow-lg transition-all bg-white"
+            rounded-full  shadow hover:shadow-lg transition-all bg-white z-50"
               onClick={navigateToWriting}
             >
               <svg

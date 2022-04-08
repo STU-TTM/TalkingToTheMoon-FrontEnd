@@ -176,7 +176,7 @@ function App() {
               hover:shadow-md transition-all cursor-pointer"
               onClick={sentLogin}
             >
-              <span>login++{loginUsername}</span>
+              <span>login</span>
             </div>
             {/* 用于撑开flex布局 */}
             <div className=""></div>
