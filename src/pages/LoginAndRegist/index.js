@@ -33,6 +33,7 @@ function App() {
       },
       { maxContentLength: 2000 }
     );
+    console.log(res.data.code);
     if (res.data.code === 200) {
       showToast(2000, "登录成功");
       navigate(-1);

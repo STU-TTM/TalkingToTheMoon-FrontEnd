@@ -1,27 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../../component/Navbar";
 import request from "../../utils/request";
 import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
 import { Link, useNavigate } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import fixBug from "../../utils/fixImgUrlBug";
+import styled from "styled-components";
+
+const Container = styled.div`
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+`;
 
 export default function Index() {
-  const [list, setList] = useState(undefined);
+  const [list, setList] = useState([]);
   const [detailId, setDetailId] = useState(undefined);
   const [postDetail, setPostDetail] = useState(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(10000);
   const navigate = useNavigate();
+  const waterFlowRef = useRef();
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await request.post(GETPOSTLISTBYPAGE, {
-        current: 1,
+        current: currentPage,
         limit: 10,
       });
-      if (res.data.code === 1) setList(res.data.data);
-      else navigate("/loginAndRegist", { replace: true });
+      if (res.data.code === 1) {
+        setList((list) => [...list, ...res.data.data]);
+        setMaxPage(res.data.maxpage);
+      } else if (res.data.code === 404)
+        navigate("/loginAndRegist", { replace: true });
     };
     fetchData();
-  }, [navigate]);
+  }, [navigate, currentPage]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,9 +60,42 @@ export default function Index() {
     navigate("/communityWriting");
   };
 
+  const updataWhenScrollToBottom = () => {
+    if (
+      Math.abs(
+        parseInt(waterFlowRef.current.offsetHeight) +
+          parseInt(waterFlowRef.current.scrollTop) -
+          parseInt(waterFlowRef.current.scrollHeight)
+      ) <= 50
+    ) {
+      throttleFetchData();
+    }
+  };
+
   const [showDetail, setShowDetail] = useState(false);
+  const [canCallScrollEvent, setCanCallScrollEvent] = useState(true);
+
+  const throttle = (fn, timeout) => {
+    return function (...args) {
+      if (canCallScrollEvent === true) {
+        fn(...args);
+        setCanCallScrollEvent(false);
+        setTimeout(() => {
+          setCanCallScrollEvent(true);
+        }, timeout);
+      }
+    };
+  };
+
+  const throttleFetchData = throttle(() => {
+    if (currentPage < maxPage)
+      setCurrentPage((prevPage) => {
+        return prevPage + 1;
+      });
+  }, 1500);
+
   return (
-    <Navbar choice="Community">
+    <Navbar choice="Community" fullscreen>
       <SwitchTransition mode="out-in">
         <CSSTransition
           key={showDetail}
@@ -98,6 +146,7 @@ export default function Index() {
               </div>
             </div>
           ) : (
+            // 发帖按钮
             <div
               className="fixed  bottom-24 left-1/2 transform -translate-x-1/2 cursor-pointer
             rounded-full  shadow hover:shadow-lg transition-all bg-white z-50"
@@ -128,49 +177,57 @@ export default function Index() {
           )}
         </CSSTransition>
       </SwitchTransition>
-      <div
-        className="bg-gray-50"
-        style={{
-          columnCount: "4",
-          columnGap: "1rem",
-        }}
+      <Container
+        className="max-h-full overflow-y-scroll"
+        onScroll={updataWhenScrollToBottom}
+        ref={waterFlowRef}
       >
-        {list?.map((item) => {
-          return (
-            <Link
-              to="#"
-              key={item.id}
-              onClick={() => {
-                setShowDetail(true);
-                setDetailId(item.id);
-              }}
-              className="w-80 mx-2 my-6 bg-white rounded-lg shadow-lg inline-block hover:shadow-2xl 
-              transition-all duration-300 cursor-pointer "
-            >
-              {/* 图片 */}
-              {item.picture !== null && (
-                <div className="overflow-hidden">
-                  <img
-                    src={fixBug(item?.picture)}
-                    alt="post_picture"
-                    className="transform hover:scale-125 transition-all duration-500"
-                  />
-                </div>
-              )}
+        <div
+          className="bg-gray-50 flex flex-shrink-0 flex-wrap"
+          // style={{
+          //   columnCount: "4",
+          //   columnGap: "1rem",
+          //   breakInside: "avoid",
+          //   height: "auto",
+          // }}
+        >
+          {list?.map((item) => {
+            return (
+              <Link
+                to="#"
+                key={item.id}
+                onClick={() => {
+                  setShowDetail(true);
+                  setDetailId(item.id);
+                }}
+                className="w-80 mx-20 my-6 bg-white rounded-lg shadow-lg inline-block hover:shadow-2xl 
+              transition-all duration-300 cursor-pointer h-auto "
+              >
+                {/* 图片 */}
+                {item.picture !== null && (
+                  <div className="overflow-hidden">
+                    <img
+                      src={fixBug(item?.picture)}
+                      alt="post_picture"
+                      className="transform hover:scale-125 transition-all duration-500"
+                    />
+                  </div>
+                )}
 
-              {/* 头像和匿名称呼 */}
-              <div className="flex justify-between items-center m-3">
-                <div className="w-12 h-12 rounded-full bg-gray-300"></div>
-                <div className="mx-3 text-gray-700 text-2xl font-bold">
-                  {item.anonymity}
+                {/* 头像和匿名称呼 */}
+                <div className="flex justify-between items-center m-3">
+                  <div className="w-12 h-12 rounded-full bg-gray-300"></div>
+                  <div className="mx-3 text-gray-700 text-2xl font-bold">
+                    {item.anonymity}
+                  </div>
                 </div>
-              </div>
-              {/* 内容 */}
-              <div className="px-4 py-3">{item.content}</div>
-            </Link>
-          );
-        })}
-      </div>
+                {/* 内容 */}
+                <div className="px-4 py-3">{item.content}</div>
+              </Link>
+            );
+          })}
+        </div>
+      </Container>
     </Navbar>
   );
 }

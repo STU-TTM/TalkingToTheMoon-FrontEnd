@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.26.1",
     "http-proxy-middleware": "^2.0.1",
+    "masonry-layout": "^4.2.2",
     "mobx": "^6.3.7",
     "mobx-react": "^7.2.1",
     "react": "^17.0.2",
