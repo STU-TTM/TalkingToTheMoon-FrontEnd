@@ -29,9 +29,14 @@ export default function Index() {
         current: currentPage,
         limit: 10,
       });
+
+      if (list.length !== 0 && currentPage === 1) return;
+
       if (res.data.code === 1) {
-        setList((list) => [...list, ...res.data.data]);
-        setMaxPage(res.data.maxpage);
+        if (!(list.length !== 0 && currentPage === 1)) {
+          setList((list) => [...list, ...res.data.data]);
+          setMaxPage(res.data.maxpage);
+        }
       } else if (res.data.code === 404)
         navigate("/loginAndRegist", { replace: true });
     };
@@ -60,12 +65,12 @@ export default function Index() {
     navigate("/communityWriting");
   };
 
-  const updataWhenScrollToBottom = () => {
+  const updataWhenScrollToBottom = (e) => {
     if (
       Math.abs(
-        parseInt(waterFlowRef.current.offsetHeight) +
-          parseInt(waterFlowRef.current.scrollTop) -
-          parseInt(waterFlowRef.current.scrollHeight)
+        parseInt(e.target.offsetHeight) +
+          parseInt(e.target.scrollTop) -
+          parseInt(e.target.scrollHeight)
       ) <= 50
     ) {
       throttleFetchData();
@@ -92,7 +97,7 @@ export default function Index() {
       setCurrentPage((prevPage) => {
         return prevPage + 1;
       });
-  }, 1500);
+  }, 2000);
 
   return (
     <Navbar choice="Community" fullscreen>
@@ -182,15 +187,7 @@ export default function Index() {
         onScroll={updataWhenScrollToBottom}
         ref={waterFlowRef}
       >
-        <div
-          className="bg-gray-50 flex flex-shrink-0 flex-wrap"
-          // style={{
-          //   columnCount: "4",
-          //   columnGap: "1rem",
-          //   breakInside: "avoid",
-          //   height: "auto",
-          // }}
-        >
+        <div className="bg-gray-50 flex flex-shrink-0 flex-wrap mb-10">
           {list?.map((item) => {
             return (
               <Link
@@ -209,7 +206,8 @@ export default function Index() {
                     <img
                       src={fixBug(item?.picture)}
                       alt="post_picture"
-                      className="transform hover:scale-125 transition-all duration-500"
+                      className="transform hover:scale-125 transition-all duration-500 max-h-56
+                      mx-auto"
                     />
                   </div>
                 )}
@@ -227,6 +225,11 @@ export default function Index() {
             );
           })}
         </div>
+        {maxPage === currentPage && (
+          <div className="h-10 mb-10 transform -translate-y-10 bg-red-200 text-center leading-10">
+            已加载完全部内容
+          </div>
+        )}
       </Container>
     </Navbar>
   );

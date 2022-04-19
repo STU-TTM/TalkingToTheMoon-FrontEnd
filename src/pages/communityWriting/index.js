@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Navbar from "../../component/Navbar";
 import styled from "styled-components";
 import request from "../../utils/request";
 import { UPLOADPICTURE, INSERTPOST } from "../../utils/pathMap";
 import fixbug from "../../utils/fixImgUrlBug";
+import { ToastContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const PhotoInput = styled.input`
   font-size: 1px;
@@ -36,6 +38,9 @@ export default function Writing() {
   const [anonymity, setAnonymity] = useState(undefined);
   const [title, setTitle] = useState(undefined);
   const [content, setContent] = useState(undefined);
+  const toast = useContext(ToastContext);
+  let navigate = useNavigate();
+
   // 图片上传
   const handlePictureUpload = (e) => {
     const file = e.target.files[0];
@@ -54,6 +59,7 @@ export default function Writing() {
           if (value.data.code !== 200) throw new Error("图片上传失败");
           else {
             setPicture(value.data.data.path);
+            toast(1500, "图片上传成功");
             return value.data.data.path;
           }
         },
@@ -63,14 +69,18 @@ export default function Writing() {
       );
   };
 
-  const sentPost = (e) => {
-    const res = request.post(INSERTPOST, {
+  const sentPost = async (e) => {
+    if (!picture) return;
+    const res = await request.post(INSERTPOST, {
       anonymity: anonymity,
       title: title,
       content: content,
       picture: picture,
     });
-    console.log(res);
+    if (res.data.code === 200) {
+      toast(1500, "帖子上传成功");
+      navigate(-1);
+    }
   };
 
   const handleTitleChange = (event) => {
