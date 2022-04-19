@@ -2,7 +2,7 @@
   "name": "talking_to_the_moon",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://120.24.228.79:8080/",
+  "proxy": "http://120.24.228.79/",
   "homepage": "/",
   "dependencies": {
     "@craco/craco": "^6.4.2",

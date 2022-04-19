@@ -9,6 +9,7 @@ import Personal from "./pages/Personal";
 import MeetyouDetail from "./component/MeetyouDetail";
 import CommunityWriting from "./pages/communityWriting";
 import MeetyouSend from "./component/MeetyouSend";
+import CommunityPostDetail from "./component/CommunityPostDetail";
 
 export const ToastContext = React.createContext(undefined);
 
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/loginAndRegist" element={<LoginAndRegist />}></Route>
           <Route path="/community" element={<CommunityListPage />}></Route>
+          <Route path="/community/:id" element={<CommunityPostDetail />} />
           <Route path="/meetYou" element={<MeetYou />} />
           <Route path="/meetYou/:id" element={<MeetyouDetail />} />
           <Route path="/mysend" element={<MeetyouSend />} />

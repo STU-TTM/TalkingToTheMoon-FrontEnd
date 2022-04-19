@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
 import request from "../../utils/request";
-import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
+import {
+  LOGIN,
+  GETLOVEPAGEBYPAGE as GETPOSTLISTBYPAGE,
+  GETLOVEDETAILBYID as GETPOSTDETAIL,
+} from "../../utils/pathMap";
 import { useNavigate } from "react-router-dom";
 // import { CSSTransition, SwitchTransition } from "react-transition-group";
 import MeetyouCard from "../../component/MeetyouCard";
@@ -22,24 +26,6 @@ export default function Index(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [maxPage, setMaxPage] = useState(10000);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      let res = await request.post(LOGIN, {
-        email: "1",
-        password: "1",
-      });
-
-      res = await request.post(GETPOSTDETAIL, {
-        postid: detailId,
-        current: 1,
-        limit: 5,
-      });
-
-      setPostDetail(res.data.data);
-    };
-    fetchData();
-  }, [detailId]);
 
   useEffect(() => {
     const fetchData = async () => {

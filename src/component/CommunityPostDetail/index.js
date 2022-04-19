@@ -3,10 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import styled from "styled-components";
 import request from "../../utils/request";
-import {
-  GETLOVEPAGEDETAILBYID as GETPOSTDETAIL,
-  ADDLOVEPAGECOMMENT as ADDCOMMENT,
-} from "../../utils/pathMap";
+import { GETPOSTDETAIL, ADDCOMMENT } from "../../utils/pathMap";
 import fixBug from "../../utils/fixImgUrlBug";
 
 const ScrollBarHidden = styled.div`
@@ -40,7 +37,7 @@ export default function Index(props) {
   useEffect(() => {
     const fetchData = async () => {
       const res = await request.post(GETPOSTDETAIL, {
-        confessionid: params.id,
+        postid: params.id,
         current: 1,
         limit: 10,
       });
@@ -95,7 +92,7 @@ export default function Index(props) {
   }
 
   return (
-    <Navbar choice="Love">
+    <Navbar choice="Community">
       {/* 主要呈现内容部分 */}
       <div className="w-full min-h-screen flex flex-col items-center px-5 md:px-16 lg:px-24">
         {/* 头像部分 */}
@@ -220,24 +217,24 @@ export default function Index(props) {
           </div>
           {/* 这里是展示评论处 */}
           <ScrollBarHidden className="h-full p-2 overflow-auto bg-white rounded-lg shadow-md">
-            {data?.ccomments.length === 0 ? (
+            {data?.comments.length === 0 ? (
               <div className="flex justify-center items-center p-1">
                 您或将成为该贴第一条评论
               </div>
             ) : (
-              data?.ccomments.map((item) => (
+              data?.comments.map((item) => (
                 <div
                   className={`w-full h-auto mb-3 p-1 rounded-md shadow-md flex flex-row duration-300 ${
-                    selected === item.ccomment.id ? "bg-red-200" : "bg-white"
+                    selected === item.comment.id ? "bg-red-200" : "bg-white"
                   }`}
-                  key={item.ccomment.id}
+                  key={item.comment.id}
                   onClick={(e) => {
                     e.stopPropagation();
                     setCommentToName(item.author.username);
                     setTarget_id(item.author.uid);
                     setComment("");
-                    setEntity_id(item.ccomment.id);
-                    setSelected(item.ccomment.id);
+                    setEntity_id(item.comment.id);
+                    setSelected(item.comment.id);
                   }}
                 >
                   {/* 评论头像 */}
@@ -260,11 +257,11 @@ export default function Index(props) {
                     <div className="">{item.author.username}</div>
                     {/* 评论内容 */}
                     <div className="break-all whitespace-pre-wrap">
-                      {item.ccomment.content}
+                      {item.comment.content}
                     </div>
                     {/* 评论时间 */}
                     <div className="w-full text-right text-xs text-gray-400 mt-1">
-                      {item.ccomment.create_time}
+                      {item.comment.create_time}
                     </div>
                     {item?.replys.length === 0 ? (
                       ""
@@ -283,7 +280,7 @@ export default function Index(props) {
                               setCommentToName(double.user.username);
                               setTarget_id(double.user.uid);
                               setComment("");
-                              setEntity_id(item.ccomment.id);
+                              setEntity_id(item.comment.id);
                               setSelected(double.reply.id);
                             }}
                           >

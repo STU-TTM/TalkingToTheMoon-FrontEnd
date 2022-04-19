@@ -28,8 +28,8 @@ function App() {
     const res = await Require.post(
       LOGIN,
       {
-        email: 1,
-        password: 1,
+        email: loginUsername,
+        password: loginPassword,
       },
       { maxContentLength: 2000 }
     );
