@@ -5,9 +5,37 @@ import {
   GETPERSONALINFORMATION,
   UPLOADHEADPICTURE,
   MODIFYPERSONALPICTURE,
+  LOGOUT,
 } from "../../utils/pathMap";
 import { useNavigate } from "react-router-dom";
 import fixImgUrlBug from "../../utils/fixImgUrlBug";
+import styled, { keyframes } from "styled-components";
+import { ToastContext } from "../../App";
+
+const sssss = keyframes`
+  0% {
+    transform: translateX(-0.5rem);
+  }
+  25% {
+    transform: translateX(0.5rem);
+  }
+  50% {
+    transform: translateX(-0.5rem);
+  }
+  75% {
+    transform: translateX(0.5rem);
+  }
+  100% {
+    transform: translateX(-0.5rem);
+  }
+
+`;
+
+const Logout = styled.div`
+  &:hover {
+    animation: ${sssss} 0.5s linear infinite;
+  }
+`;
 
 const PersonalInformationContext = React.createContext(undefined);
 
@@ -32,13 +60,13 @@ function Item(props) {
                 return personalInformation?.username;
               case "邮箱":
                 // return personalInformation?.email;
-                return "19zkhuang1@stu.edu.cn";
+                return personalInformation?.email;
               case "生日":
-                return "2022.1.1";
+                return "未知";
               case "性别":
-                return "男";
+                return "未知";
               case "号码":
-                return "133133133";
+                return "未知";
               default:
                 break;
             }
@@ -55,6 +83,7 @@ export default function Index(props) {
   const [personanInformation, setPersonanInformation] = useState(undefined);
   const [personalPictureURL, setPersonalPictureURL] = useState(undefined);
   const navigation = useNavigate();
+  const toast = useContext(ToastContext);
 
   // 获取个人信息
   useEffect(() => {
@@ -166,6 +195,24 @@ export default function Index(props) {
             <Item label="邮箱"></Item>
             <Item label="号码"></Item>
           </div>
+
+          {/* 注销 */}
+          <Logout
+            className="bg-blue-300 w-28 h-12 rounded opacity-60 text-center text-xl m-10 hover:bg-blue-400 transition-all 
+            cursor-pointer"
+            style={{ lineHeight: "3rem" }}
+            onClick={() => {
+              request.post(LOGOUT).then((value) => {
+                if (value.data.code !== 200) toast(2000, "注销失败");
+                else {
+                  toast(2000, "注销成功");
+                  navigation("/loginAndRegist");
+                }
+              });
+            }}
+          >
+            注销
+          </Logout>
         </div>
       </PersonalInformationContext.Provider>
     </Navbar>

@@ -4,6 +4,7 @@ export const REGISTER = "/register";
 export const GETPERSONALINFORMATION = "/userdetail";
 export const UPLOADHEADPICTURE = "/uploadHeadportrait";
 export const MODIFYPERSONALPICTURE = "/updateHeadportrait";
+export const LOGOUT = "/lout";
 // 贴吧
 export const GETPOSTDETAILBYID = "/detail/";
 export const GETPOSTDETAIL = "/Postdetail";

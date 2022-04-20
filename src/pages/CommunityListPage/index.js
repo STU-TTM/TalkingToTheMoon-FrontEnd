@@ -138,9 +138,21 @@ export default function Index() {
                 )}
 
                 {/* 头像和匿名称呼 */}
-                <div className="flex justify-between items-center m-3">
-                  <div className="w-12 h-12 rounded-full bg-gray-300"></div>
-                  <div className="mx-3 text-gray-700 text-2xl font-bold">
+                <div className="flex justify-between items-center m-3 flex-shrink-0">
+                  <div
+                    className="w-12 h-12 rounded-full bg-center"
+                    style={{
+                      backgroundSize: "cover",
+                      backgroundImage: `url(https://api.multiavatar.com/${item.content.slice(
+                        0,
+                        5
+                      )}.png?apikey=IAh64gMWmU85n0)`,
+                    }}
+                  ></div>
+                  <div
+                    className="mx-3 text-gray-700 text-2xl font-bold break-all text-right"
+                    style={{ maxWidth: "13rem" }}
+                  >
                     {item.anonymity}
                   </div>
                 </div>

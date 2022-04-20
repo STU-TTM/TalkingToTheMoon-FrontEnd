@@ -70,7 +70,18 @@ export default function Writing() {
   };
 
   const sentPost = async (e) => {
-    if (!picture) return;
+    if (anonymity.length >= 13) {
+      toast(1500, "匿名名称太长");
+      return;
+    }
+    if (!picture) {
+      toast(1500, "没有上传图片");
+      return;
+    }
+    if (!title) {
+      toast(1500, "没有输入标题");
+      return;
+    }
     const res = await request.post(INSERTPOST, {
       anonymity: anonymity,
       title: title,

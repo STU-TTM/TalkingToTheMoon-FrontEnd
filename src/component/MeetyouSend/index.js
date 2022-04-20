@@ -69,6 +69,14 @@ export default function Index() {
 
   function handleButtonClick() {
     const fetchData = async () => {
+      if (fileurl === "") {
+        toast(2000, "请上传图片");
+        return;
+      }
+      if (content === "") {
+        toast(2000, "请输入内容");
+        return;
+      }
       const res = await request.post(INSERTPOST, {
         uid: data.uid,
         anonymity: data.username,

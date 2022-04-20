@@ -44,7 +44,16 @@ export default function Index(props) {
             }}
           >
             {/* 头像 */}
-            <div className="w-9 h-9 rounded-full border-2 mr-2"></div>
+            <div
+              className="w-9 h-9 rounded-full border-2 mr-2"
+              style={{
+                backgroundSize: "cover",
+                backgroundImage: `url(https://api.multiavatar.com/${props.item.content.slice(
+                  0,
+                  5
+                )}.png?apikey=IAh64gMWmU85n0)`,
+              }}
+            ></div>
             {/* 昵称 */}
             <div className="">{props.item.anonymity}</div>
           </div>
