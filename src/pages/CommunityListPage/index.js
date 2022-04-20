@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../../component/Navbar";
 import request from "../../utils/request";
-import { LOGIN, GETPOSTLISTBYPAGE, GETPOSTDETAIL } from "../../utils/pathMap";
+import { GETPOSTLISTBYPAGE } from "../../utils/pathMap";
 import { Link, useNavigate } from "react-router-dom";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
 import fixBug from "../../utils/fixImgUrlBug";
 import styled from "styled-components";
 

@@ -6,7 +6,6 @@ import Require from "../../utils/request";
 import { LOGIN, REGISTER } from "../../utils/pathMap";
 import { ToastContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function App() {
   const showToast = useContext(ToastContext);
@@ -50,7 +49,18 @@ function App() {
       email: registEmail,
       password: registPassword,
     });
-    console.log(res);
+    if (res.data.msg === "邮箱格式错误") {
+      showToast(2000, "邮箱格式错误");
+      return;
+    }
+    if (res.data.msg === "用户名已存在") {
+      showToast(2000, "用户名已存在");
+      return;
+    }
+    if (res.data.code === 200) {
+      showToast(2000, "注册成功");
+      navigate(-1);
+    }
   };
 
   return (

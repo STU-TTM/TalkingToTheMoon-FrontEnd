@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/Navbar";
 import request from "../../utils/request";
-import {
-  LOGIN,
-  GETLOVEPAGEBYPAGE as GETPOSTLISTBYPAGE,
-  GETLOVEDETAILBYID as GETPOSTDETAIL,
-} from "../../utils/pathMap";
+import { GETLOVEPAGEBYPAGE as GETPOSTLISTBYPAGE } from "../../utils/pathMap";
 import { useNavigate } from "react-router-dom";
 // import { CSSTransition, SwitchTransition } from "react-transition-group";
 import MeetyouCard from "../../component/MeetyouCard";
@@ -19,7 +15,7 @@ const Container = styled.div`
   }
 `;
 
-export default function Index(props) {
+export default function Index() {
   const [list, setList] = useState([]);
   const [detailId, setDetailId] = useState(undefined);
   const [postDetail, setPostDetail] = useState(undefined);
@@ -46,19 +42,6 @@ export default function Index(props) {
     };
     fetchData();
   }, [navigate, currentPage]);
-
-  const updataWhenScrollToBottom = (e) => {
-    if (
-      Math.abs(
-        parseInt(e.target.offsetHeight) +
-          parseInt(e.target.scrollTop) -
-          parseInt(e.target.scrollHeight)
-      ) <= 50
-    ) {
-      console.log("fetching");
-      throttleFetchData();
-    }
-  };
 
   const [canCallScrollEvent, setCanCallScrollEvent] = useState(true);
 
